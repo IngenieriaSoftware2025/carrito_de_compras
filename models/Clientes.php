@@ -33,4 +33,11 @@ class Clientes extends ActiveRecord {
         $this->cliente_situacion = $args['cliente_situacion'] ?? 1;
     }
 
+    public static function EliminarClientes($id){
+
+        $sql = "DELETE FROM clientes WHERE cliente_id = $id";
+
+        return self::SQL($sql);
+    }
+
 }

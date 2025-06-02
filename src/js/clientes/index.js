@@ -5,22 +5,22 @@ import DataTable from "datatables.net-bs5";
 import { lenguaje } from "../lenguaje";
 import { data } from "jquery";
 
-const FormUsuarios = document.getElementById('FormUsuarios');
+const FormClientes = document.getElementById('FormClientes');
 const BtnGuardar = document.getElementById('BtnGuardar');
 const BtnModificar = document.getElementById('BtnModificar');
 const BtnLimpiar = document.getElementById('BtnLimpiar');
-const InputUsuarioTelefono = document.getElementById('usuario_telefono');
-const usuario_nit = document.getElementById('usuario_nit');
+const InputClienteTelefono = document.getElementById('cliente_telefono');
+const cliente_nit = document.getElementById('cliente_nit');
 
 
 const ValidarTelefono = () => {
 
-    const CantidadDigitos = InputUsuarioTelefono.value
+    const CantidadDigitos = InputClienteTelefono.value
 
 
     if (CantidadDigitos.length < 1) {
 
-        InputUsuarioTelefono.classList.remove('is-valid', 'is-invalid');
+        InputClienteTelefono.classList.remove('is-valid', 'is-invalid');
 
     } else {
 
@@ -33,12 +33,12 @@ const ValidarTelefono = () => {
                 showConfirmButton: true,
             });
 
-            InputUsuarioTelefono.classList.remove('is-valid');
-            InputUsuarioTelefono.classList.add('is-invalid');
+            InputClienteTelefono.classList.remove('is-valid');
+            InputClienteTelefono.classList.add('is-invalid');
 
         } else {
-            InputUsuarioTelefono.classList.remove('is-invalid');
-            InputUsuarioTelefono.classList.add('is-valid');
+            InputClienteTelefono.classList.remove('is-invalid');
+            InputClienteTelefono.classList.add('is-valid');
         }
 
     }
@@ -46,7 +46,7 @@ const ValidarTelefono = () => {
 
 
 function validarNit() {
-    const nit = usuario_nit.value.trim();
+    const nit = cliente_nit.value.trim();
 
     let nd, add = 0;
 
@@ -67,11 +67,11 @@ const EsValidoNit = () => {
     validarNit();
 
     if (validarNit()) {
-        usuario_nit.classList.add('is-valid');
-        usuario_nit.classList.remove('is-invalid');
+        cliente_nit.classList.add('is-valid');
+        cliente_nit.classList.remove('is-invalid');
     } else {
-        usuario_nit.classList.remove('is-valid');
-        usuario_nit.classList.add('is-invalid');
+        cliente_nit.classList.remove('is-valid');
+        cliente_nit.classList.add('is-invalid');
 
         Swal.fire({
             position: "center",
@@ -85,12 +85,12 @@ const EsValidoNit = () => {
 }
 
 
-const GuardarUsuario = async (event) => {
+const GuardarCliente = async (event) => {
 
     event.preventDefault();
     BtnGuardar.disabled = true;
 
-    if (!validarFormulario(FormUsuarios, ['usuario_id'])) {
+    if (!validarFormulario(FormClientes, ['cliente_id'])) {
         Swal.fire({
             position: "center",
             icon: "info",
@@ -101,9 +101,9 @@ const GuardarUsuario = async (event) => {
         BtnGuardar.disabled = false;
     }
 
-    const body = new FormData(FormUsuarios);
+    const body = new FormData(FormClientes);
 
-    const url = '/MVC/usuarios/guardarAPI';
+    const url = '/carrito_de_compras/clientes/guardarAPI';
     const config = {
         method: 'POST',
         body
@@ -127,7 +127,7 @@ const GuardarUsuario = async (event) => {
             });
 
             limpiarTodo();
-            BuscarUsuarios();
+            BuscarClientes();
 
         } else {
 
@@ -149,9 +149,9 @@ const GuardarUsuario = async (event) => {
 
 }
 
-const BuscarUsuarios = async () => {
+const BuscarClientes = async () => {
 
-    const url = '/MVC/usuarios/buscarAPI';
+    const url = '/carrito_de_compras/clientes/buscarAPI';
     const config = {
         method: 'GET'
     }
@@ -193,7 +193,7 @@ const BuscarUsuarios = async () => {
 }
 
 
-const datatable = new DataTable('#TableUsuarios', {
+const datatable = new DataTable('#TableClientes', {
     dom: `
         <"row mt-3 justify-content-between" 
             <"col" l> 
@@ -211,35 +211,18 @@ const datatable = new DataTable('#TableUsuarios', {
     columns: [
         {
             title: 'No.',
-            data: 'usuario_id',
+            data: 'cliente_id',
             width: '%',
             render: (data, type, row, meta) => meta.row + 1
         },
-        { title: 'Nombre', data: 'usuario_nombres' },
-        { title: 'Apellidos', data: 'usuario_apellidos' },
-        { title: 'Correo ', data: 'usuario_correo' },
-        { title: 'Telefono ', data: 'usuario_telefono' },
-        { title: 'Nit', data: 'usuario_nit' },
-        { title: 'Fecha', data: 'usuario_fecha' },
-        {
-            title: 'Destino',
-            data: 'usuario_estado',
-            render: (data, type, row) => {
-
-                const estado = row.usuario_estado
-
-                if (estado == "P") {
-                    return "PRESENTE"
-                } else if (estado == "F") {
-                    return "FALTANDO"
-                } else if (estado == "C") {
-                    return "COMISION"
-                }
-            }
-        },
+        { title: 'Nombre', data: 'cliente_nombres' },
+        { title: 'Apellidos', data: 'cliente_apellidos' },
+        { title: 'Correo ', data: 'cliente_correo' },
+        { title: 'Telefono ', data: 'cliente_telefono' },
+        { title: 'Nit', data: 'cliente_nit' },
         {
             title: 'Acciones',
-            data: 'usuario_id',
+            data: 'cliente_id',
             searchable: false,
             orderable: false,
             render: (data, type, row, meta) => {
@@ -247,13 +230,11 @@ const datatable = new DataTable('#TableUsuarios', {
                  <div class='d-flex justify-content-center'>
                      <button class='btn btn-warning modificar mx-1' 
                          data-id="${data}" 
-                         data-nombre="${row.usuario_nombres}"  
-                         data-apellidos="${row.usuario_apellidos}"  
-                         data-nit="${row.usuario_nit}"  
-                         data-telefono="${row.usuario_telefono}"  
-                         data-correo="${row.usuario_correo}"  
-                         data-estado="${row.usuario_estado}"  
-                         data-fecha="${row.usuario_fecha}"  
+                         data-nombre="${row.cliente_nombres}"  
+                         data-apellidos="${row.cliente_apellidos}"  
+                         data-nit="${row.cliente_nit}"  
+                         data-telefono="${row.cliente_telefono}"  
+                         data-correo="${row.cliente_correo}"  
                          <i class='bi bi-pencil-square me-1'></i> Modificar
                      </button>
                      <button class='btn btn-danger eliminar mx-1' 
@@ -271,14 +252,12 @@ const llenarFormulario = (event) => {
 
     const datos = event.currentTarget.dataset
 
-    document.getElementById('usuario_id').value = datos.id
-    document.getElementById('usuario_nombres').value = datos.nombre
-    document.getElementById('usuario_apellidos').value = datos.apellidos
-    document.getElementById('usuario_nit').value = datos.nit
-    document.getElementById('usuario_telefono').value = datos.telefono
-    document.getElementById('usuario_correo').value = datos.correo
-    document.getElementById('usuario_estado').value = datos.estado
-    document.getElementById('usuario_fecha').value = datos.fecha
+    document.getElementById('cliente_id').value = datos.id
+    document.getElementById('cliente_nombres').value = datos.nombre
+    document.getElementById('cliente_apellidos').value = datos.apellidos
+    document.getElementById('cliente_nit').value = datos.nit
+    document.getElementById('cliente_telefono').value = datos.telefono
+    document.getElementById('cliente_correo').value = datos.correo
 
     BtnGuardar.classList.add('d-none');
     BtnModificar.classList.remove('d-none');
@@ -291,19 +270,19 @@ const llenarFormulario = (event) => {
 
 const limpiarTodo = () => {
 
-    FormUsuarios.reset();
+    FormClientes.reset();
     BtnGuardar.classList.remove('d-none');
     BtnModificar.classList.add('d-none');
 }
 
 
 
-const ModificarUsuario = async (event) => {
+const ModificarCliente = async (event) => {
 
     event.preventDefault();
     BtnModificar.disabled = true;
 
-    if (!validarFormulario(FormUsuarios, [''])) {
+    if (!validarFormulario(FormClientes, [''])) {
         Swal.fire({
             position: "center",
             icon: "info",
@@ -314,9 +293,9 @@ const ModificarUsuario = async (event) => {
         BtnGuardar.disabled = false;
     }
 
-    const body = new FormData(FormUsuarios);
+    const body = new FormData(FormClientes);
 
-    const url = '/MVC/usuarios/modificarAPI';
+    const url = '/carrito_de_compras/clientes/modificarAPI';
     const config = {
         method: 'POST',
         body
@@ -339,7 +318,7 @@ const ModificarUsuario = async (event) => {
             });
 
             limpiarTodo();
-            BuscarUsuarios();
+            BuscarClientes();
 
         } else {
 
@@ -362,9 +341,9 @@ const ModificarUsuario = async (event) => {
 }
 
 
-const EliminarUsuarios = async (e) => {
+const EliminarClientes = async (e) => {
 
-    const idUsuario = e.currentTarget.dataset.id
+    const idCliente = e.currentTarget.dataset.id
 
     const AlertaConfirmarEliminar = await Swal.fire({
         position: "center",
@@ -380,7 +359,7 @@ const EliminarUsuarios = async (e) => {
 
     if (AlertaConfirmarEliminar.isConfirmed) {
 
-        const url = `/MVC/usuarios/eliminar?id=${idUsuario}`;
+        const url = `/carrito_de_compras/clientes/eliminar?id=${idCliente}`;
         const config = {
             method: 'GET'
         }
@@ -401,7 +380,7 @@ const EliminarUsuarios = async (e) => {
                     showConfirmButton: true,
                 });
 
-                BuscarUsuarios();
+                BuscarClientes();
             } else {
                 await Swal.fire({
                     position: "center",
@@ -422,11 +401,11 @@ const EliminarUsuarios = async (e) => {
 
 
 
-BuscarUsuarios();
-datatable.on('click', '.eliminar', EliminarUsuarios);
+BuscarClientes();
+datatable.on('click', '.eliminar', EliminarClientes);
 datatable.on('click', '.modificar', llenarFormulario);
-FormUsuarios.addEventListener('submit', GuardarUsuario);
-usuario_nit.addEventListener('change', EsValidoNit);
-InputUsuarioTelefono.addEventListener('change', ValidarTelefono);
+FormClientes.addEventListener('submit', GuardarCliente);
+cliente_nit.addEventListener('change', EsValidoNit);
+InputClienteTelefono.addEventListener('change', ValidarTelefono);
 BtnLimpiar.addEventListener('click', limpiarTodo);
-BtnModificar.addEventListener('click', ModificarUsuario);
+BtnModificar.addEventListener('click', ModificarCliente);
