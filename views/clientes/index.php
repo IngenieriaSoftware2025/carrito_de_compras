@@ -15,18 +15,18 @@
                         <div class="row mb-3 justify-content-center">
                             <div class="col-lg-6">
                                 <label for="cliente_nombres" class="form-label">INGRESE EL NOMBRE DEL CLIENTE</label>
-                                <input type="text" class="form-control" id="cliente_nombres" name="cliente_nombres" placeholder="ingrese los nombres">
+                                <input type="text" class="form-control" id="cliente_nombres" name="cliente_nombres" placeholder="Juan">
                             </div>
                             <div class="col-lg-6">
                                 <label for="cliente_apellidos" class="form-label">INGRESE LOS APELLIDOS</label>
-                                <input type="text" class="form-control" id="cliente_apellidos" name="cliente_apellidos" placeholder="Ingrese aca los apellidos">
+                                <input type="text" class="form-control" id="cliente_apellidos" name="cliente_apellidos" placeholder="Torres">
                             </div>
                         </div>
 
                         <div class="row mb-3 justify-content-center">
                             <div class="col-lg-6">
                                 <label for="cliente_nit" class="form-label">INGRESE EL NIT</label>
-                                <input type="number" class="form-control" id="cliente_nit" name="cliente_nit" placeholder="Ingrese aca el nit">
+                                <input type="number" class="form-control" id="cliente_nit" name="cliente_nit" placeholder="Sin guiones">
                             </div>
                             <div class="col-lg-6">
                                 <label for="cliente_telefono" class="form-label">INGRESE EL TELEFONO</label>
