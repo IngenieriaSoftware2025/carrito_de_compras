@@ -30,4 +30,17 @@ class Productos extends ActiveRecord {
         $this->producto_situacion = $args['producto_situacion'] ?? 1;
     }
 
+    public static function EliminarProductos($id)
+{
+    $producto = self::find($id);
+
+    if ($producto && $producto -> producto_cantidad == 0) {
+        return $producto->eliminar();
+    }
+
+    return false;
+}
+
+
+
 }

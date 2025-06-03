@@ -176,10 +176,17 @@ class ProductoController extends ActiveRecord
     public static function EliminarAPI()
     {
         try {
-
             $id = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
-
             $ejecutar = Productos::EliminarProductos($id);
+
+            if (!$ejecutar) {
+                http_response_code(400);
+                echo json_encode([
+                    'codigo' => 0,
+                    'mensaje' => 'No se puede eliminar el producto porque aún tiene stock disponible.'
+                ]);
+                return;
+            }
 
             http_response_code(200);
             echo json_encode([
@@ -195,6 +202,8 @@ class ProductoController extends ActiveRecord
             ]);
         }
     }
+
+
 
 
 }
